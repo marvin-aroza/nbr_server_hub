@@ -17,10 +17,13 @@ class UserController extends Controller
                         ->leftjoin('mst_states as s','us.state','s.id')
                         ->leftjoin('mst_titles as t','us.title','t.id')
                         ->leftjoin('mst_info_type as it','us.info_type','it.id')
-                        ->select('users.*','mr.id as role_id','mr.name as role','c.name as country')
+                        ->select('users.*','us.last_name','us.dob','mr.id as role_id','mr.name as role_name','us.country as country_id','c.name as country','us.state as state_id','s.name as state',
+                                'us.title as title_id','t.name as title','us.info_type as info_type_id','it.name as info_type','us.is_active','us.is_deleted')
+                        ->where(['is_active'=>true,'is_deleted'=>0,'mr.id'=>5])//Only front end users
                         ->get()->toArray();
-            echo '<pre>';
-            print_r($userslist);
+            $message = config('constants.MESSAGE.DATA_FETCHED');
+            $code = config('constants.ERROR.CODE.OK'); // Ok
+            return jsonResponse(true, $userslist, $message, $code);
         } catch (Exception $ex) {
             $message = $ex->getMessage();
             $code = $ex->getCode();

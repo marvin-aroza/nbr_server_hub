@@ -37,4 +37,16 @@ Route::group(['middleware'=>'auth:api'], function() {
        Route::get('subnavbar-data/{id}','SubnavbarController@getSubNavbarData');
        Route::get('delete-subnavbar/{id}','SubnavbarController@deleteSubNavbar');
    });
+   Route::group(['namespace'=>'StaticPage'], function(){
+       Route::post('add-static-page','StaticPageController@addStaticPage');
+       Route::get('static-page-list','StaticPageController@getStaticPageList');
+       Route::get('static-page-data/{id}','StaticPageController@getStaticPageData');
+       Route::get('delete-static-page/{id}','StaticPageController@deleteStaticPage');
+   });
+   Route::group(['namespace'=>'News'], function(){
+       Route::post('add-news','NewsController@addNews');
+       Route::get('news-list','NewsController@getNewsList');
+       Route::get('news-data/{id}','NewsController@getNewsData');
+       Route::get('delete-news/{id}','NewsController@deleteNews');
+   });
 });

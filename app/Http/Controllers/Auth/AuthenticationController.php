@@ -20,10 +20,10 @@ class AuthenticationController extends AccessTokenController
 {
     public function registerFrontEndUser(Request $request) {
         try {
-
+            
             $validator = Validator::make($request->all(), [
                 'title' => 'required',
-                'firstname' => 'required',
+                'firstname' => 'required', 
                 'lastname' => 'required',
                 'dob' => 'required|date',
                 'country' => 'required',
@@ -62,14 +62,14 @@ class AuthenticationController extends AccessTokenController
                 $roleid = DB::table('mst_roles')->where('name','User')->first();
                 if(!empty($roleid->id)) {
                     $insertRole = DB::table('lk_user_role')->insert(['user_id'=>$user->id, 'role_id'=>$roleid->id]);
-                }
+                } 
                 if($saveUserInfo && $insertRole) {
                     $success['role'] = $roleid->name;
                     DB::commit();
                     $message = config('constants.MESSAGE.USER_REGISTER_SUCCESS');
                     $code = config('constants.ERROR.CODE.OK'); // Ok
                     return jsonResponse(true, $success, $message, $code);
-                } else {
+                } else { 
                     DB::rollBack();
                     $message = config('constants.MESSAGE.USER_REGISTER_FAIL');
                     $code = config('constants.ERROR.CODE.BAD_REQUEST');
@@ -89,9 +89,9 @@ class AuthenticationController extends AccessTokenController
             $message = $e->getMessage();
             $code = 400;
             return jsonResponse(false, null, $message, $code);
-        }
+        }    
     }
-
+    
     public function loginUserAdmin(Request $request) {
         try {
             $validator = Validator::make($request->all(), [
@@ -124,12 +124,12 @@ class AuthenticationController extends AccessTokenController
                     return jsonResponse(true, $data, $message, $code);
                 } else {
                     $message = config('constants.MESSAGE.INVALID_CREDENTIALS');
-                    $code = config('constants.ERROR.CODE.UNAUTHORISED');
+                    $code = config('constants.ERROR.CODE.UNAUTHORISED'); 
                     return jsonResponse(false, null, $message, $code);
                 }
             } else {
                 $message = config('constants.MESSAGE.USER_NOT_EXIST');
-                $code = config('constants.ERROR.CODE.UNAUTHORISED');
+                $code = config('constants.ERROR.CODE.UNAUTHORISED'); 
                 return jsonResponse(false, null, $message, $code);
             }
         } catch (Exception $e) {
@@ -168,7 +168,7 @@ class AuthenticationController extends AccessTokenController
                 $roleid = DB::table('mst_roles')->where('name',$input['role'])->first();
                 if(!empty($roleid->id)) {
                     $insertRole = DB::table('lk_user_role')->insert(['user_id'=>$user->id, 'role_id'=>$roleid->id]);
-                }
+                } 
                 if($insertRole) {
                     $success['role'] = $roleid->name;
                     DB::commit();
