@@ -23,7 +23,7 @@ class StaticPage extends Model
         } else {//insert navbar
             $data['id'] = DB::table('static_pages')->insertGetId($insertData);
         }
-        if(!empty($data['title_image']) && !empty($data['id'])) {#upload title image
+        /*if(!empty($data['title_image']) && !empty($data['id'])) {#upload title image
             $filename = 'title-image-' . time() . '.' . $data['title_image']->getClientOriginalExtension();
             $path = $data['title_image']->storeAs('public/Uploads/Title',$filename);
             $image_exists = DB::table('lk_static_title_images')->where('static_page_id',$data['id'])->first();
@@ -32,7 +32,7 @@ class StaticPage extends Model
             } else {
                 DB::table('lk_static_title_images')->insert(['static_page_id'=>$data['id'], 'title_image'=>$filename]);
             }
-        }
+        }*/
         if(!empty($data['id'])) {
             DB::commit();
             return $data['id'];
@@ -50,7 +50,7 @@ class StaticPage extends Model
             foreach($staticpages as $k=>$v)
             {
                 if(!empty($v->title_image)){
-                    $v->title_image = public_path('Uploads/Title/'.$v->title_image);
+                    $v->title_image = asset('storage/Uploads/Title/'.$v->title_image);
                 }
             }
         } else {
@@ -63,8 +63,10 @@ class StaticPage extends Model
                 ->leftjoin('lk_static_title_images as lk','st.id','lk.static_page_id')
                 ->select('st.*','lk.title_image')
                 ->where(['st.id'=>$id,'st.is_active'=>true,'st.is_deleted'=>0])->first();
-        if($staticpage) {
-            $staticpage->title_image = public_path('Uploads/Title/'.$staticpage->title_image);
+        if(!empty($staticpage)) {
+            $staticpage->title_image = asset('storage/Uploads/Title/'.$staticpage->title_image);
+        } else {
+            $staticpage = [];
         }
         return $staticpage;
     }

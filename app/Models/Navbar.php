@@ -29,7 +29,15 @@ class Navbar extends Model
         return DB::table('navbar')->where('id',$id)->get()->toArray();
     }
     public function navbarDelete($id) {
-        return DB::table('navbar')->where('id',$id)->update(['is_active'=>false,'is_deleted'=>1]);
+        DB::table('navbar')->where('id',$id)->update(['is_active'=>false,'is_deleted'=>1]);
+        $is_subnav_exists = DB::table('subnavbar')->where('navbar_id',$id)->exists();
+        if($is_subnav_exists) {
+            DB::table('subnavbar')->where('navbar_id',$id)->update(['is_active'=>false,'is_deleted'=>1]);
+        }
+        $is_static_exists = DB::table('static_pages')->where('navbar_id',$id)->exists();
+        if($is_static_exists) {
+            DB::table('static_pages')->where('navbar_id',$id)->update(['is_active'=>false, 'is_deleted'=>1]);
+        }
     }
     public function subnavbarAddOrUpdate($data) {
         $insertData = array(
@@ -53,6 +61,10 @@ class Navbar extends Model
         return DB::table('subnavbar')->where('id',$id)->get()->toArray();
     }
     public function subnavbarDelete($id) {
-        return DB::table('subnavbar')->where('id',$id)->update(['is_active'=>false,'is_deleted'=>1]);
+        DB::table('subnavbar')->where('id',$id)->update(['is_active'=>false,'is_deleted'=>1]);
+        $is_static_exists = DB::table('static_pages')->where('subnavbar_id',$id)->exists();
+        if($is_static_exists) {
+            DB::table('static_pages')->where('subnavbar_id',$id)->update(['is_active'=>false, 'is_deleted'=>1]);
+        }
     }
 }

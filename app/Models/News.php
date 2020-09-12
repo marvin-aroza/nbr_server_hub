@@ -61,8 +61,10 @@ class News extends Model
                 ->leftjoin('lk_news_images as lk','st.id','lk.news_id')
                 ->select('st.*','lk.cover_image')
                 ->where(['st.id'=>$id,'st.is_active'=>true,'st.is_deleted'=>0])->first();
-        if($staticpage) {
+        if(!empty($staticpage)) {
             $staticpage->cover_image = url('public/Uploads/Title/'.$staticpage->cover_image);
+        } else {
+            $staticpage = [];
         }
         return $staticpage;
     }

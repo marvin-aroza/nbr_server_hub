@@ -25,6 +25,8 @@ return [
         'EMAIL_NOT_FOUND' => 'Email not found!',
         'INVALID_CREDENTIALS' => 'Invalid credentials',
         'USER_NOT_EXIST' => 'User does not exist!',
+        'USER_INACTIVATED' => 'User inactivated successfully!',
+        'USER_DELETED' => 'User deleted successfully!',
         'LOGIN_SUCCESS' => 'Login successful',
         'INVALID_DATA' => 'Invalid data!',
         'DATA_FETCHED' => 'List fecthed successfully!',
@@ -38,6 +40,18 @@ return [
         'SUBNAVBAR_ADDED'=>'Sub Navbar added successfully!',
         'FAILED_SUBNAVBAR_ADD'=>'Failed to add Sub Navbar',
         'SUBNAVBAR_DELETED'=>'Sub Navbar deleted successfully!',
+        'STATICPAGE_ADDED'=>'Static page added successfully!',
+        'FAILED_STATICPAGE_ADD'=>'Failed to add Static page',
+        'STATICPAGE_DELETED'=>'Static page deleted successfully!',
+        'NEWS_ADDED'=>'News added successfully!',
+        'FAILED_NEWS_ADD'=>'Failed to add News',
+        'NEWS_DELETED'=>'News deleted successfully!',
+        'TITLE_LOGO_ADDED'=>'Title logo added successfully!',
+        'FAILED_TITLE_LOGO_ADD'=>'Failed to add title logo',
+        'TITLE_LOGO_DELETED'=>'Title logo deleted successfully!',
+        'GALLERY_ADDED'=>'Image added successfully!',
+        'FAILED_GALLERY_ADD'=>'Failed to add Image',
+        'GALLERY_DELETED'=>'Image deleted successfully!',
     ]
 ];
 
