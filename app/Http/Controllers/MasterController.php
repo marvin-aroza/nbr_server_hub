@@ -38,4 +38,30 @@ class MasterController extends Controller
             return jsonResponse(false, null, $message, $code);
         }
     }
+    
+    public function getHtmlDesignList() {
+        try{
+            $htmlList = DB::table('mst_design_html')->where('is_active',true)->get()->toArray();
+            $message = config('constants.MESSAGE.DATA_FETCHED');
+            $code = config('constants.ERROR.CODE.OK'); // Ok
+            return jsonResponse(true, $htmlList, $message, $code);
+        } catch (Exception $ex) {
+            $message = $ex->getMessage();
+            $code = $ex->getCode();
+            return jsonResponse(false, null, $message, $code);
+        }
+    }
+    
+    public function getHtmlDesignData($id) {
+        try{
+            $htmlData = DB::table('mst_design_html')->where(['id'=>$id,'is_active'=>true])->first();
+            $message = config('constants.MESSAGE.DATA_FETCHED');
+            $code = config('constants.ERROR.CODE.OK'); // Ok
+            return jsonResponse(true, $htmlData, $message, $code);
+        } catch (Exception $ex) {
+            $message = $ex->getMessage();
+            $code = $ex->getCode();
+            return jsonResponse(false, null, $message, $code);
+        }
+    }
 }

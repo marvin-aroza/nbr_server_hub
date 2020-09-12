@@ -61,6 +61,11 @@ return [
         'SUBCATEGORY_ADDED'=>'Subcategory added successfully!',
         'FAILED_SUBCATEGORY_ADD'=>'Failed to add Subcategory',
         'SUBCATEGORY_DELETED'=>'Subcategory deleted successfully!',
+        'RECORDS_ADDED'=>'Records added successfully!',
+        'FAILED_RECORDS_ADD'=>'Failed to add records',
+        'RECORDS_DELETED'=>'Records deleted successfully!',
+        'VIDEO_ADDED' => 'Video link added successfully!',
+        'FAILED_VIDEO_ADD'=>'Failed to add video',
     ]
 ];
 

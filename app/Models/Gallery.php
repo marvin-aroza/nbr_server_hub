@@ -57,4 +57,20 @@ class Gallery extends Model
     public function imageDelete($id) {
         DB::table('gallery')->where('id',$id)->update(['is_active'=>false,'is_deleted'=>1]);
     }
+    
+    public function videoAddOrUpdate($data) {
+        DB::beginTransaction();
+        if(!empty($data['id'])) {//update gallery image
+            DB::table('videos')->where('id',$data['id'])->update($data);
+        } else {//insert navbar
+            $data['id'] = DB::table('videos')->insertGetId($data);
+        }
+        if(!empty($data['id'])) {
+            DB::commit();
+            return $data['id'];
+        } else {
+            DB::rollBack();
+            return null;
+        }
+    }
 }

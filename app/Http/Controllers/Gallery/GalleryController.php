@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Gallery;
 use Validator;
+use DB;
 
 class GalleryController extends Controller
 {
@@ -74,6 +75,50 @@ class GalleryController extends Controller
             $message = config('constants.MESSAGE.GALLERY_DELETED');
             $code = config('constants.ERROR.CODE.OK'); // Ok
             return jsonResponse(true, null, $message, $code);
+        } catch (Exception $ex) {
+            $message = $ex->getMessage();
+            $code = $ex->getCode();
+            return jsonResponse(false, null, $message, $code);
+        }
+    }
+    public function addVideo(Request $request) {
+        try {
+            $validator = Validator::make($request->all(), [
+                'video_link'=>'required'
+            ]);
+            if($validator->fails()) {
+                $message = $validator->errors();
+                $code = config('constants.ERROR.CODE.BAD_REQUEST'); // Ok
+                return jsonResponse(false, null, $message, $code);
+            }
+            $data = $request->all();
+            $gallery = new Gallery();
+            $resp = $gallery->videoAddOrUpdate($data);
+            if($resp) {
+                $message = config('constants.MESSAGE.VIDEO_ADDED');
+                $code = config('constants.ERROR.CODE.OK'); // Ok
+                return jsonResponse(true, null, $message, $code);
+            } else {
+                $message = config('constants.MESSAGE.FAILED_VIDEO_ADD');
+                $code = config('constants.ERROR.CODE.BAD_REQUEST'); // Ok
+                return jsonResponse(false, null, $message, $code);
+            }
+        } catch (Exception $ex) {
+            $message = $ex->getMessage();
+            $code = $ex->getCode();
+            return jsonResponse(false, null, $message, $code);
+        } catch (QueryException $e) {
+            $message = $e->getMessage();
+            $code = 400;
+            return jsonResponse(false, null, $message, $code);
+        }
+    }
+    public function getVideoById($id) {
+        try {
+            $videoData = DB::table('videos')->where('id',$id)->first();
+            $message = config('constants.MESSAGE.SUCCESS');
+            $code = config('constants.ERROR.CODE.OK'); // Ok
+            return jsonResponse(true, null, $videoData, $code);
         } catch (Exception $ex) {
             $message = $ex->getMessage();
             $code = $ex->getCode();

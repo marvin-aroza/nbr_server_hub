@@ -51,6 +51,8 @@ Route::group(['middleware'=>'auth:api'], function() {
    Route::group(['namespace'=>'Gallery'], function(){
        Route::post('add-gallery-image','GalleryController@addGalleryImage');
        Route::get('delete-gallery-image/{id}','GalleryController@deleteGalleryImageById');
+       
+       Route::post('add-video','GalleryController@addVideo');
    });
    Route::group(['namespace'=>'Category'], function(){
        Route::post('add-category','CategoryController@addCategory');
@@ -58,6 +60,9 @@ Route::group(['middleware'=>'auth:api'], function() {
        
        Route::post('add-subcategory','SubCategoryController@addsubCategory');
        Route::get('delete-subcategory/{id}','SubCategoryController@deletesubCategory');
+       
+       Route::post('add-record','RecordsController@addRecords');
+       Route::get('delete-record/{id}','RecordsController@deleteRecord');
    });
    Route::post('add-application-in-touch-form','UserController@addApplicationInTouchForm');
    Route::get('application-in-touch-list','UserController@applicationInTouchList');
@@ -89,6 +94,8 @@ Route::group(['middleware'=>'auth:api'], function() {
     Route::group(['namespace'=>'Gallery'], function(){
         Route::get('gallery-image-list','GalleryController@getGalleryImageList');
         Route::get('gallery-image-data/{id}','GalleryController@getGalleryImageData');
+        
+        Route::get('video-by-id/{id}','GalleryController@getVideoById');
     });
     Route::group(['namespace'=>'Category'], function(){
         Route::get('category-list','CategoryController@getCategoryList');
@@ -96,4 +103,9 @@ Route::group(['middleware'=>'auth:api'], function() {
         
         Route::get('subcategory-list/{id}','SubCategoryController@getsubCategoryList');
         Route::get('subcategory-data/{id}','SubCategoryController@getsubCategoryData');
+        
+        Route::get('records-list/{id}','RecordsController@getRecordList');
+        Route::get('records-data/{id}','RecordsController@getRecordData');
     });
+    Route::get('get-html-design-list','MasterController@getHtmlDesignList');
+    Route::get('get-html-design-data/{id}','MasterController@getHtmlDesignData');
