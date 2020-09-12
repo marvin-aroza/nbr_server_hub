@@ -52,6 +52,17 @@ Route::group(['middleware'=>'auth:api'], function() {
        Route::post('add-gallery-image','GalleryController@addGalleryImage');
        Route::get('delete-gallery-image/{id}','GalleryController@deleteGalleryImageById');
    });
+   Route::group(['namespace'=>'Category'], function(){
+       Route::post('add-category','CategoryController@addCategory');
+       Route::get('delete-category/{id}','CategoryController@deleteCategory');
+       
+       Route::post('add-subcategory','SubCategoryController@addsubCategory');
+       Route::get('delete-subcategory/{id}','SubCategoryController@deletesubCategory');
+   });
+   Route::post('add-application-in-touch-form','UserController@addApplicationInTouchForm');
+   Route::get('application-in-touch-list','UserController@applicationInTouchList');
+   Route::get('application-in-touch-data/{formid}','UserController@applicationInTouchData');
+   Route::get('application-data-delete/{formid}','UserController@applicationDataDelete');
 });
    Route::group(['namespace'=>'Navbar'], function(){
        Route::get('navbar-list','NavbarController@getNavbarList');
@@ -64,6 +75,8 @@ Route::group(['middleware'=>'auth:api'], function() {
    Route::group(['namespace'=>'StaticPage'], function(){
        Route::get('static-page-list','StaticPageController@getStaticPageList');
        Route::get('static-page-data/{id}','StaticPageController@getStaticPageData');
+       
+       Route::get('static-page-by-nav-subnav/{type}/{url}','StaticPageController@getStaticPageByNavSubnav');
    });
     Route::group(['namespace'=>'News'], function(){
         Route::get('news-list','NewsController@getNewsList');
@@ -76,4 +89,11 @@ Route::group(['middleware'=>'auth:api'], function() {
     Route::group(['namespace'=>'Gallery'], function(){
         Route::get('gallery-image-list','GalleryController@getGalleryImageList');
         Route::get('gallery-image-data/{id}','GalleryController@getGalleryImageData');
+    });
+    Route::group(['namespace'=>'Category'], function(){
+        Route::get('category-list','CategoryController@getCategoryList');
+        Route::get('category-data/{id}','CategoryController@getCategoryData');
+        
+        Route::get('subcategory-list/{id}','SubCategoryController@getsubCategoryList');
+        Route::get('subcategory-data/{id}','SubCategoryController@getsubCategoryData');
     });

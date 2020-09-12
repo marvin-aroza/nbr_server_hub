@@ -73,4 +73,26 @@ class StaticPage extends Model
     public function staticPageDelete($id) {
         DB::table('static_pages')->where('id',$id)->update(['is_active'=>false,'is_deleted'=>1]);
     }
+    
+    public function staticPageDataByNavSubnav($type,$url) {
+        if($type == 'navbar') {
+            $staticpage = DB::table('navbar as nv')
+                ->join('static_pages as st','nv.id','st.navbar_id')
+                ->leftjoin('lk_static_title_images as lk','st.id','lk.static_page_id')
+                ->select('st.*','lk.title_image')
+                ->where(['nv.url'=>$url,'st.is_active'=>true,'st.is_deleted'=>0])->first();
+        } elseif ($type == 'subnavbar') {
+            $staticpage = DB::table('subnavbar as nv')
+                ->join('static_pages as st','nv.id','st.subnavbar_id')
+                ->leftjoin('lk_static_title_images as lk','st.id','lk.static_page_id')
+                ->select('st.*','lk.title_image')
+                ->where(['nv.url'=>$url,'st.is_active'=>true,'st.is_deleted'=>0])->first();
+        }
+        if(!empty($staticpage)) {
+            $staticpage->title_image = asset('storage/Uploads/Title/'.$staticpage->title_image);
+        } else {
+            $staticpage = [];
+        }
+        return $staticpage;
+    }
 }

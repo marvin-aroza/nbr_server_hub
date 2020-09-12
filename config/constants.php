@@ -52,6 +52,15 @@ return [
         'GALLERY_ADDED'=>'Image added successfully!',
         'FAILED_GALLERY_ADD'=>'Failed to add Image',
         'GALLERY_DELETED'=>'Image deleted successfully!',
+        'APPLICATION_FORM_ADDED'=>'Application form added successfully!',
+        'FAILED_APPLICATION_FORM_ADD'=>'Failed to add application form',
+        'APPLICATION_FORM_DELETED'=>'Application form deleted successfully!',
+        'CATEGORY_ADDED'=>'Category added successfully!',
+        'FAILED_CATEGORY_ADD'=>'Failed to add category',
+        'CATEGORY_DELETED'=>'Category deleted successfully!',
+        'SUBCATEGORY_ADDED'=>'Subcategory added successfully!',
+        'FAILED_SUBCATEGORY_ADD'=>'Failed to add Subcategory',
+        'SUBCATEGORY_DELETED'=>'Subcategory deleted successfully!',
     ]
 ];
 
