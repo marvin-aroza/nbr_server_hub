@@ -48,7 +48,7 @@ class News extends Model
             foreach($staticpages as $k=>$v)
             {
                 if(!empty($v->cover_image)){
-                    $v->cover_image = url('public/Uploads/News/'.$v->cover_image);
+                    $v->cover_image = asset('storage/Uploads/News/'.$v->cover_image);
                 }
             }
         } else {
@@ -62,7 +62,9 @@ class News extends Model
                 ->select('st.*','lk.cover_image')
                 ->where(['st.id'=>$id,'st.is_active'=>true,'st.is_deleted'=>0])->first();
         if(!empty($staticpage)) {
-            $staticpage->cover_image = url('public/Uploads/Title/'.$staticpage->cover_image);
+            if(!empty($staticpage->cover_image)) {
+                $staticpage->cover_image = asset('storage/Uploads/News/'.$staticpage->cover_image);
+            }
         } else {
             $staticpage = [];
         }

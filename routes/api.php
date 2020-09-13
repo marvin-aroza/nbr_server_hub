@@ -106,6 +106,7 @@ Route::group(['middleware'=>'auth:api'], function() {
         
         Route::get('records-list/{id}','RecordsController@getRecordList');
         Route::get('records-data/{id}','RecordsController@getRecordData');
+        Route::get('records-data-limit','RecordsController@getRecordLimitList');
     });
     Route::get('get-html-design-list','MasterController@getHtmlDesignList');
     Route::get('get-html-design-data/{id}','MasterController@getHtmlDesignData');

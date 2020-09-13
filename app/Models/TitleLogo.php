@@ -56,7 +56,9 @@ class TitleLogo extends Model
         $titlelogo = DB::table('title_logo as st')
                 ->where(['st.id'=>$id,'st.is_active'=>true,'st.is_deleted'=>0])->first();
         if($titlelogo) {
-            $titlelogo->logo_image = asset('storage/Uploads/TitleLogo/'.$titlelogo->logo_image);
+            if(!empty($titlelogo->logo_image)){
+                $titlelogo->logo_image = asset('storage/Uploads/TitleLogo/'.$titlelogo->logo_image);
+            }
         } else {
             $titlelogo=[];
         }

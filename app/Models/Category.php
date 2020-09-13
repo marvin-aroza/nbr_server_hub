@@ -8,11 +8,21 @@ use DB;
 class Category extends Model
 {
     public function categoryAddOrUpdate($data) {
-        if(!empty($data['id'])) {//update navbar
-            DB::table('categories')->where('id',$data['id'])->update($data);
-        } else {//insert navbar
-            $data['id'] = DB::table('categories')->insertGetId($data);
+        $insert_data =  array(
+            'name'=>$data['name']
+        );
+        
+        if(!empty($data['image'])) {#upload title image
+            $filename = 'category-image-' . time() . '.' . $data['image']->getClientOriginalExtension();
+            $path = $data['image']->storeAs('public/Uploads/Category',$filename);
+            $insert_data['image'] = $filename;
         }
+        if(!empty($data['id'])) {//update navbar
+            DB::table('categories')->where('id',$data['id'])->update($insert_data);
+        } else {//insert navbar
+            $data['id'] = DB::table('categories')->insertGetId($insert_data);
+        }
+        
         if(!empty($data['id'])) {
             DB::commit();
             return $data['id'];
@@ -24,7 +34,14 @@ class Category extends Model
     public function categoryList() {
         $categories = DB::table('categories')
                 ->where(['is_active'=>true, 'is_deleted'=>0])->get()->toArray();
-        if(empty($categories)) {
+        if(!empty($categories)) {
+            foreach($categories as $k=>$v)
+            {
+                if(!empty($v->image)) {
+                    $v->image = asset('storage/Uploads/Category/'.$v->image);
+                }
+            }
+        } else {
             $categories = [];
         }
         return $categories;
@@ -32,7 +49,11 @@ class Category extends Model
     public function categoryData($id) {
         $categories = DB::table('categories')
                 ->where(['id'=>$id,'is_active'=>true,'is_deleted'=>0])->first();
-        if(empty($categories)) { 
+        if(!empty($categories)) { 
+            if(!empty($categories->image)) {
+                $categories->image = asset('storage/Uploads/Category/'.$categories->image);
+            }
+        } else {
             $categories = [];
         }
         return $categories;
@@ -54,6 +75,11 @@ class Category extends Model
             'name' => $data['name'],
             'category_id'=>$data['category_id']
         ];
+        if(!empty($data['image'])) {#upload title image
+            $filename = 'subcategory-image-' . time() . '.' . $data['image']->getClientOriginalExtension();
+            $path = $data['image']->storeAs('public/Uploads/Category',$filename);
+            $insert_data['image'] = $filename;
+        }
         if(!empty($data['id'])) {//update navbar
             DB::table('subcategories')->where('id',$data['id'])->update($insert_data);
         } else {//insert navbar
@@ -70,7 +96,14 @@ class Category extends Model
     public function subcategoryList($id) {
         $categories = DB::table('subcategories')
                 ->where(['category_id'=>$id,'is_active'=>true, 'is_deleted'=>0])->get()->toArray();
-        if(empty($categories)) {
+        if(!empty($categories)) {
+            foreach($categories as $k=>$v)
+            {
+                if(!empty($v->image)) {
+                    $v->image = asset('storage/Uploads/Category/'.$v->image);
+                }
+            }
+        } else {
             $categories = [];
         }
         return $categories;
@@ -78,13 +111,21 @@ class Category extends Model
     public function subcategoryData($id) {
         $categories = DB::table('subcategories')
                 ->where(['id'=>$id,'is_active'=>true,'is_deleted'=>0])->first();
-        if(empty($categories)) { 
+        if(!empty($categories)) { 
+            if(!empty($categories->image)) {
+                $categories->image = asset('storage/Uploads/Category/'.$categories->image);
+            }
+        } else {
             $categories = [];
         }
         return $categories;
     }
     public function subcategoryDelete($id) {
         DB::table('subcategories')->where('id',$id)->update(['is_active'=>false,'is_deleted'=>1]);
+        $is_record_exists = DB::table('records')->where('subcategory_id',$id)->exists();
+        if($is_record_exists) {
+            DB::table('records')->where('subcategory_id',$id)->update(['is_active'=>false,'is_deleted'=>1]);
+        }
     }
     
     public function recordsAddOrUpdate($data) {

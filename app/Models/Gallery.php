@@ -48,7 +48,9 @@ class Gallery extends Model
         $imageData = DB::table('gallery')
                 ->where(['id'=>$id,'is_active'=>true,'is_deleted'=>0])->first();
         if($imageData) {
-            $imageData->image_link = asset('storage/Uploads/TitleLogo/'.$imageData->image_link);
+            if(!empty($imageData->image_link)) {
+                $imageData->image_link = asset('storage/Uploads/Gallery/'.$imageData->image_link);
+            }
         } else {
             $imageData=[];
         }

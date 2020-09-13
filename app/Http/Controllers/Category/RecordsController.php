@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
 use App\Models\Category;
+use DB;
 
 class RecordsController extends Controller
 {
@@ -75,6 +76,29 @@ class RecordsController extends Controller
             $message = config('constants.MESSAGE.RECORDS_DELETED');
             $code = config('constants.ERROR.CODE.OK'); // Ok
             return jsonResponse(true, null, $message, $code);
+        } catch (Exception $ex) {
+            $message = $ex->getMessage();
+            $code = $ex->getCode();
+            return jsonResponse(false, null, $message, $code);
+        }
+    }
+    
+    public function getRecordLimitList() {
+        try{
+            $records = DB::table('records')->where(['is_active'=>true,'is_deleted'=>0])->orderBy('id','DESC')->take(3)->get()->toArray();
+            if(!empty($records)) {
+                foreach($records as $k=>$v)
+                {
+                    if(!empty($v->title_image)){
+                        $v->title_image = asset('storage/Uploads/Records/'.$v->title_image);
+                    }
+                }
+            } else {
+                $records = [];
+            }
+            $message = config('constants.MESSAGE.DATA_FETCHED');
+            $code = config('constants.ERROR.CODE.OK'); // Ok
+            return jsonResponse(true, $records, $message, $code);
         } catch (Exception $ex) {
             $message = $ex->getMessage();
             $code = $ex->getCode();

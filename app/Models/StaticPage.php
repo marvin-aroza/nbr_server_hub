@@ -64,7 +64,9 @@ class StaticPage extends Model
                 ->select('st.*','lk.title_image')
                 ->where(['st.id'=>$id,'st.is_active'=>true,'st.is_deleted'=>0])->first();
         if(!empty($staticpage)) {
-            $staticpage->title_image = asset('storage/Uploads/Title/'.$staticpage->title_image);
+            if(!empty($staticpage->title_image)) {
+                $staticpage->title_image = asset('storage/Uploads/Title/'.$staticpage->title_image);
+            }
         } else {
             $staticpage = [];
         }
@@ -89,7 +91,9 @@ class StaticPage extends Model
                 ->where(['nv.url'=>$url,'st.is_active'=>true,'st.is_deleted'=>0])->first();
         }
         if(!empty($staticpage)) {
-            $staticpage->title_image = asset('storage/Uploads/Title/'.$staticpage->title_image);
+            if(!empty($staticpage->title_image)) {
+                $staticpage->title_image = asset('storage/Uploads/Title/'.$staticpage->title_image);
+            }
         } else {
             $staticpage = [];
         }
